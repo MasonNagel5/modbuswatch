@@ -96,4 +96,4 @@ This is a simulated lab on loopback, not real OT hardware or live plant traffic.
 
 ## Built with
 
-Python, pymodbus, Zeek, Wireshark and tshark.
+Python, pymodbus, Zeek, Suricata, Wireshark and tshark.
