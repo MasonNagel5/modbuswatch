@@ -1,0 +1,2 @@
+alert modbus any any -> any any (msg:"MODBUSWATCH unauthorized function code (fc17 report server id)"; modbus: function 17; sid:1000001; rev:1;)
+alert modbus any any -> any any (msg:"MODBUSWATCH write command seen (fc6 write single register)"; modbus: function 6; sid:1000002; rev:1;)
