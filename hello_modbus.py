@@ -1,3 +1,6 @@
+# This file was to teszt the connection between the PLCS and the main computer
+
+
 import threading, time
 from pymodbus.server import StartTcpServer
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext, ModbusSequentialDataBlock

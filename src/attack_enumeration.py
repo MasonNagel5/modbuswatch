@@ -1,7 +1,6 @@
 import time
 from pymodbus.client import ModbusTcpClient
 
-# attack 2: register enumeration 
 # normal traffic reads the same few boxes over and over
 HOST = "127.0.0.1"
 PORT = 5020

@@ -1,7 +1,6 @@
 import time
 from pymodbus.client import ModbusTcpClient
 
-# attack 3: unauthorized write to a sensitive register.
 # normal traffic only reads. here the attacker WRITES to box 100
 # which we reserved as a setpoint becuase boxes 100-120 are sensitive
 # in a real plant this changes a crucial process

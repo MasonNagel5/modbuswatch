@@ -1,10 +1,9 @@
 import time
 from pymodbus.client import ModbusTcpClient
 
-# attack 1: unauthorized function code.
-# normal traffic only uses read commands (fc 1,2,3,4).
+# normal traffic only uses read commands fc 1,2,3,4
 # here the attacker sends fc 17 which is unheard of
-# in real life this is an intruder probing the plc to figure out what it is.
+# in real life this is an intruder probing the plc to figure out what it is
 HOST = "127.0.0.1"
 PORT = 5020
 
