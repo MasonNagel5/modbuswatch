@@ -1,4 +1,5 @@
 # ModbusWatch
+![CI](https://github.com/MasonNagel5/modbuswatch/actions/workflows/detections.yml/badge.svg)
 
 Network-layer detection lab for Modbus TCP. It catches OT attacks that leave no trace in the sensor data, using Zeek.
 
