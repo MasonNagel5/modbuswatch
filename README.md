@@ -1,4 +1,5 @@
 # ModbusWatch
+
 ![CI](https://github.com/MasonNagel5/modbuswatch/actions/workflows/detections.yml/badge.svg)
 
 Network-layer detection lab for Modbus TCP. It catches OT attacks that leave no trace in the sensor data, using Zeek.
@@ -31,6 +32,8 @@ Each one breaks a different rule of normal Modbus traffic, and three of the four
 3. **Write to a protected register** (T0836). A write to a setpoint register (100 to 120), caught at command time, before any physical change happens.
 4. **Unauthorized client** (T0886). A Modbus request from a source IP outside the known-good set, which usually means an intruder has reached the OT network.
 
+Full mapping with justifications is in `docs/mitre_mapping.md`.
+
 ## How it works
 
 ```
@@ -60,6 +63,10 @@ The unauthorized client (127.0.0.2) and the recon command (function code 17):
 ![unauthorized client](docs/screenshots/03_unauthorized_client.png)
 ![unauthorized function code](docs/screenshots/04_unauthorized_function_code.png)
 
+The malicious write to a protected register (function code 6):
+
+![sensitive register write](docs/screenshots/05_sensitive_register_write.png)
+
 ## Running it
 
 Requires Python 3.10+, Zeek, and tshark on Linux.
@@ -81,13 +88,26 @@ zeek -C -r traffic.pcap zeek/modbus_detect.zeek
 python3 src/evaluate.py
 ```
 
+## Testing and CI
+
+Every push runs a GitHub Actions pipeline (`.github/workflows/detections.yml`) on a clean Ubuntu machine. It installs Zeek from scratch, runs the unit tests, runs the Zeek detection on the committed sample capture, and grades the result. If detection ever drops below 4 of 4, the build fails. The results above are re-verified automatically on every commit, not just once on a laptop.
+
+Unit tests for the grader are in `tests/` and run with `pytest`.
+
+## Suricata rules (supplement)
+
+The main detection is behavioral and written in Zeek. `detections/suricata/modbus.rules` adds the signature-based equivalent for two of the attacks (the unauthorized function code and the write), to show the same detections in a signature IDS. Both rules were verified to fire against the capture.
+
 ## Repo layout
 
 ```
-src/        simulated PLC, normal traffic, four attacks, orchestrator, grader
-zeek/       modbus_detect.zeek: the four detection rules
-docs/       screenshots
-results/    generated scorecard
+src/                 simulated PLC, normal traffic, four attacks, orchestrator, grader
+zeek/                modbus_detect.zeek: the four detection rules
+detections/suricata/ supplemental Suricata signature rules
+tests/               unit tests for the grader
+.github/workflows/   CI pipeline that re-runs detection on every push
+docs/                screenshots and the MITRE mapping
+results/             generated scorecard
 ```
 
 ## Limitations
